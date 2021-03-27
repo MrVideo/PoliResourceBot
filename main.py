@@ -56,7 +56,6 @@ async def on_ready():
 async def on_message(message):
 
     global resourceDict
-    helloStr = '$hello'
     reloadStr = '$reload'
     aboutStr = '$about'
     helpStr = '$help'
@@ -64,13 +63,9 @@ async def on_message(message):
     # If the bot itself sent a message it gets ignored
     if message.author == client.user:
         return
-
-    # Hello message
-    if message.content == helloStr:
-        await message.channel.send('Ciao! Sono nuovo da queste parti :)')
     
     # Resource message
-    elif message.content.startswith('$res'):
+    if message.content.startswith('$res'):
         # Splits the message into command and resource index
         array = message.content.split(' ')
         if array[1].isdecimal():
