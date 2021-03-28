@@ -25,6 +25,7 @@ about.description = 'Bot creato da Mario Merlo usando la libreria discord.py ~~e
 about.set_thumbnail(url='https://i.ibb.co/BLTq2mH/icon.png')
 about.add_field(name='Il mio canale', value='[YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)', inline=False)
 about.add_field(name='Seguitemi su GitHub', value='[Clicca qui](https://www.github.com/MrVideo)', inline=False)
+about.add_field(name='Repository di GitHub', value='[Clicca qui](https://www.github.com/MrVideo/PoliResourceBot)', inline=False)
 
 # Create "Resource List" embed
 list = discord.Embed()
