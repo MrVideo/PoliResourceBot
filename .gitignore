@@ -1,8 +1,11 @@
 # File system
-*.DS_Store
+.DS_Store
 
 # Images
 *.png
 
 # Logs
 *.log
+
+# Private directory
+private

@@ -1,10 +1,16 @@
 from os import name
 import discord
+from discord.ext import commands
 import logging
 import json
 
-# Bot Token
-token = 'Insert your token here'
+from discord.gateway import DiscordWebSocket
+from private.config import token
+
+# Create new client
+intents = discord.Intents.default()
+description = 'A bot that serves university resources'
+client = commands.Bot(command_prefix='$', intents=intents, description=description)
 
 # Logger code
 logger = logging.getLogger('discord')
@@ -19,13 +25,13 @@ resourceDict = json.load(f)
 f.close()
 
 # Create "About" embed
-about = discord.Embed()
-about.title = 'PoliResourceBot'
-about.description = 'Bot creato da Mario Merlo usando la libreria discord.py ~~e tanta documentazione~~'
-about.set_thumbnail(url='https://i.ibb.co/BLTq2mH/icon.png')
-about.add_field(name='Il mio canale', value='[YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)', inline=False)
-about.add_field(name='Seguitemi su GitHub', value='[Clicca qui](https://www.github.com/MrVideo)', inline=False)
-about.add_field(name='Repository di GitHub', value='[Clicca qui](https://www.github.com/MrVideo/PoliResourceBot)', inline=False)
+aboutEmbed = discord.Embed()
+aboutEmbed.title = 'PoliResourceBot'
+aboutEmbed.description = 'Bot creato da Mario Merlo usando la libreria discord.py ~~e tanta documentazione~~'
+aboutEmbed.set_thumbnail(url='https://i.ibb.co/BLTq2mH/icon.png')
+aboutEmbed.add_field(name='Il mio canale', value='[YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)', inline=False)
+aboutEmbed.add_field(name='Seguitemi su GitHub', value='[Clicca qui](https://www.github.com/MrVideo)', inline=False)
+aboutEmbed.add_field(name='Repository di GitHub', value='[Clicca qui](https://www.github.com/MrVideo/PoliResourceBot)', inline=False)
 
 # Create "Resource List" embed
 list = discord.Embed()
@@ -44,60 +50,53 @@ helpEmbed.add_field(name='Richiedi risorsa', value='``$res <ID>``', inline=False
 helpEmbed.add_field(name='Informazioni sul bot', value='``$about``', inline=False)
 helpEmbed.add_field(name='Ricarica lista risorse', value='``$reload``', inline=False)
 
-# Create new client
-client = discord.Client()
+# Removes default help command
+client.remove_command('help')
 
-# When the login is successful, this message gets shown on the console
 @client.event
+# When the login is successful, this message gets shown on the console
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-
-# When these messages are sent
-@client.event
+# Command listener
 async def on_message(message):
+    if message.startswith('$'):
+        await client.process_commands(message)
 
+# Commands
+@client.command()
+async def reload(ctx):
+    "Reloads resources"
+    f = open('resources.json')
     global resourceDict
-    reloadStr = '$reload'
-    aboutStr = '$about'
-    helpStr = '$help'
+    resourceDict = json.load(f)
+    f.close()
+    await ctx.send('Le risorse sono state ricaricate.')
 
-    # If the bot itself sent a message it gets ignored
-    if message.author == client.user:
-        return
-    
-    # Resource message
-    if message.content.startswith('$res'):
-        # Splits the message into command and resource index
-        array = message.content.split(' ')
-        if array[1].isdecimal():
-            try:
-                # Tries to fetch the correct resource
-                await message.channel.send('Ecco la risorsa che cercavi: ' + resourceDict[int(array[1])]['url'])
-            except IndexError:
-                # Catches IndexError exception if the resource is outside of array boundaries
-                await message.channel.send('Mi dispiace, la risorsa non esiste. Riprova')
-        elif array[1] == 'list':
-            index = 0
-            for entry in resourceDict:
-                list.add_field(name='Risorsa ' + str(index), value=entry['name'], inline=False)
-                index = index + 1
-            await message.channel.send('Ecco una lista delle risorse disponibili', embed=list)
-            list.clear_fields()
+@client.command()
+async def about(ctx):
+    "Sends an embed with about information"
+    await ctx.send(embed=aboutEmbed)
 
-    # Reload message
-    elif message.content == reloadStr:
-        # Re-opens and re-loads the JSON file
-        f = open('resources.json')
-        resourceDict = json.load(f)
-        f.close()
-        await message.channel.send('Le risorse sono state ricaricate!')
-    
-    # About message
-    elif message.content == aboutStr:
-        await message.channel.send(embed=about)
+@client.command()
+async def help(ctx):
+    "Sends a help table"
+    await ctx.send(embed=helpEmbed)
 
-    elif message.content == helpStr:
-        await message.channel.send(embed=helpEmbed)
+@client.command()
+async def res(ctx, arg: str):
+    "Sends a selected resource or the list of resources"
+    if arg.isdecimal():
+        try:
+            await ctx.send("Ecco la risorsa che cercavi: " + resourceDict[int(arg)]['url'])
+        except IndexError:
+            await ctx.send("Mi dispiace, ma quella risorsa non esiste.")
+    elif arg == 'list':
+        i = 0
+        for entry in resourceDict:
+            list.add_field(name='Risorsa ' + str(i), value=entry['name'], inline=False)
+            i += 1
+        await ctx.send('Ecco una lista delle risorse disponibili', embed=list)
+        list.clear_fields()
 
 # The client is run
 client.run(token)
