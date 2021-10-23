@@ -1,0 +1,31 @@
+[
+    {
+        "prof": "Benedetta Noris",
+        "subject": "Analisi II",
+        "link": "benedetta.noris"
+    },
+
+    {
+        "prof": "Cristina Silvano",
+        "subject": "ACSO",
+        "link": "cristina.silvano"
+    },
+
+    {
+        "prof": "Valentina Dichiarante",
+        "subject": "Chimica Generale",
+        "link": "valentina.dichiarante"
+    },
+
+    {
+        "prof": "Stefania Adami",
+        "subject": "Logica e Algebra",
+        "link": "stefania.adami"
+    },
+
+    {
+        "prof": "Achille Frigeri",
+        "subject": "Logica e Algebra, Analisi I",
+        "link": "achille.frigeri"
+    }
+]

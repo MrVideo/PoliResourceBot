@@ -22,6 +22,11 @@ f = open('resources.json')
 resourceDict = json.load(f)
 f.close()
 
+# Open JSON array for Webex links
+w = open('webex.json')
+webexDict = json.load(w)
+w.close()
+
 # Create "About" embed
 aboutEmbed = discord.Embed()
 aboutEmbed.title = 'PoliResourceBot'
@@ -47,6 +52,12 @@ helpEmbed.add_field(name='Lista risorse', value='``$res list``', inline=False)
 helpEmbed.add_field(name='Richiedi risorsa', value='``$res <ID>``', inline=False)
 helpEmbed.add_field(name='Informazioni sul bot', value='``$about``', inline=False)
 helpEmbed.add_field(name='Ricarica lista risorse', value='``$reload``', inline=False)
+helpEmbed.add_field(name='Cerca link aule virtuali', value='``$webex <prof/subj> <nome>``', inline=False)
+
+# Create "Webex" embed
+webexEmbed = discord.Embed()
+webexEmbed.title = 'Risultati di ricerca'
+webexEmbed.description = 'Non è stato trovato alcun professore con questi criteri di ricerca'
 
 # Removes default help command
 client.remove_command('help')
@@ -65,9 +76,13 @@ async def on_message(message):
 async def reload(ctx):
     "Reloads resources"
     f = open('resources.json')
+    w = open('webex.json')
     global resourceDict
+    global webexDict
     resourceDict = json.load(f)
+    webexDict = json.load(w)
     f.close()
+    w.close()
     await ctx.send('Le risorse sono state ricaricate.')
 
 @client.command()
@@ -95,6 +110,26 @@ async def res(ctx, arg: str):
             i += 1
         await ctx.send('Ecco una lista delle risorse disponibili', embed=list)
         list.clear_fields()
+
+@client.command()
+async def webex(ctx, type: str, arg: str):
+    "Sends information about professors and their virtual classroom link"
+    if type == 'prof':
+        for entry in webexDict:
+            if arg.lower() in entry['prof'].lower():
+                webexEmbed.add_field(name=entry['prof'] + ' - ' + entry['subject'], value='http://politecnicomilano.webex.com/meet/' + entry['link'], inline=False)
+                webexEmbed.description = 'Ecco i risultati per la tua ricerca'
+        await ctx.send('Ecco cos\'ho trovato: ', embed=webexEmbed)
+    elif type == 'subj':
+        for entry in webexDict:
+            if arg.lower() in entry['subject'].lower():
+                webexEmbed.add_field(name=entry['prof'] + ' - ' + entry['subject'], value='http://politecnicomilano.webex.com/meet/' + entry['link'], inline=False)
+                webexEmbed.description = 'Ecco i risultati per la tua ricerca'
+        await ctx.send('Ecco cos\'ho trovato: ', embed=webexEmbed)   
+    else:
+        await ctx.send('Hai inserito un tipo non valido. Riprova.')
+    webexEmbed.description = 'Non è stato trovato alcun professore con questi criteri di ricerca'
+    webexEmbed.clear_fields()
 
 # The client is run
 client.run(token)
