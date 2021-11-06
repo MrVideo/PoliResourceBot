@@ -11,7 +11,7 @@ Il bot legge un file JSON contenente informazioni di vario tipo e le restituisce
 
 ### Dove posso trovare della documentazione?
 
-È disponibile sul mio [sito](https://mrvideo.github.io/poli)
+È disponibile sul mio [sito](https://mrvideo.github.io/poli).
 
 ---
 ### Come posso invitare questo bot nel mio server?
