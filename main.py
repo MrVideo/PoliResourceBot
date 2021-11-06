@@ -32,9 +32,10 @@ aboutEmbed = discord.Embed()
 aboutEmbed.title = 'PoliResourceBot'
 aboutEmbed.description = 'Bot creato da Mario Merlo usando la libreria discord.py ~~e tanta documentazione~~'
 aboutEmbed.set_thumbnail(url='https://i.ibb.co/BLTq2mH/icon.png')
-aboutEmbed.add_field(name='Il mio canale', value='[YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)', inline=False)
-aboutEmbed.add_field(name='Seguitemi su GitHub', value='[Clicca qui](https://www.github.com/MrVideo)', inline=False)
 aboutEmbed.add_field(name='Repository di GitHub', value='[Clicca qui](https://www.github.com/MrVideo/PoliResourceBot)', inline=False)
+aboutEmbed.add_field(name="Documentazione Bot", value="[Clicca qui](https://mrvideo.github.io/poli.html)", inline=False)
+aboutEmbed.add_field(name='Il mio sito', value="[Clicca qui](https://mrvideo.github.io/)", inline=False)
+aboutEmbed.add_field(name='Il mio canale', value='[YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)', inline=False)
 
 # Create "Resource List" embed
 list = discord.Embed()
