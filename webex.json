@@ -27,5 +27,35 @@
         "prof": "Achille Frigeri",
         "subject": "Logica e Algebra, Analisi I",
         "link": "achille.frigeri"
+    },
+
+    {
+        "prof": "Davide Gadioli",
+        "subject": "ACSO",
+        "link": "davide.gadioli"
+    },
+
+    {
+        "prof": "Ugo Buslacchi",
+        "subject": "Analisi II",
+        "link": "ugo.buslacchi"
+    },
+
+    {
+        "prof": "Carlo Angaroni",
+        "subject": "Analisi II",
+        "link": "carlo.angaroni"
+    },
+
+    {
+        "prof": "Andrea Cappelletti",
+        "subject": "Logica e Algebra",
+        "link": "andrea.cappelletti"
+    },
+
+    {
+        "prof": "Alessandro Marchetti",
+        "subject": "Chimica Generale",
+        "link": "alessandro.marchetti"
     }
 ]
