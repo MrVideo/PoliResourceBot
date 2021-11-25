@@ -63,5 +63,29 @@
         "prof": "Fabrizio Indirli",
         "subject": "ACSO",
         "link": "fabrizio.indirli"
+    },
+
+    {
+        "prof": "Paolo Dulio",
+        "subject": "Geometria e Algebra Lineare",
+        "link": "paolo.dulio"
+    },
+
+    {
+        "prof": "Francesco Musumeci",
+        "subject": "Fondamenti di Comunicazione e Internet",
+        "link": "francesco.musumeci"
+    },
+
+    {
+        "prof": "Federico Bizzarri",
+        "subject": "Elettrotecnica",
+        "link": "federico.bizzarri"
+    },
+
+    {
+        "prof": "Daniele Loiacono",
+        "subject": "Fondamenti di Informatica",
+        "link": "daniele.loiacono"
     }
 ]
