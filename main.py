@@ -1,8 +1,9 @@
-from os import name
 import discord
 from discord.ext import commands
 import logging
 import json
+
+from discord.ext.commands.errors import CommandNotFound, MissingRequiredArgument
 from private.config import token
 
 # Create new client
@@ -60,17 +61,34 @@ webexEmbed = discord.Embed()
 webexEmbed.title = 'Risultati di ricerca'
 webexEmbed.description = 'Non è stato trovato alcun professore con questi criteri di ricerca'
 
+# Create selected resource embed
+resEmbed = discord.Embed()
+resEmbed.title = "Ecco la risorsa richiesta"
+resEmbed.description = "Usa il comando ``$res <ID>`` per recuperare altre risorse."
+
 # Removes default help command
 client.remove_command('help')
 
 @client.event
 # When the login is successful, this message gets shown on the console
 async def on_ready():
+    await client.change_presence(activity=discord.Game(name='scrivi $help'))
     print('We have logged in as {0.user}'.format(client))
+
+@client.event
 # Command listener
 async def on_message(message):
-    if message.startswith('$'):
+    if message.content.startswith('$'):
         await client.process_commands(message)
+# Error handler
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.send("Mi dispiace, ma quel comando non esiste.")
+    elif isinstance(error, MissingRequiredArgument):
+        await ctx.send("Mi dispiace, ma mancano degli argomenti necessari. Riprova!")
+    else:
+        raise error
 
 # Commands
 @client.command()
@@ -101,9 +119,12 @@ async def res(ctx, arg: str):
     "Sends a selected resource or the list of resources"
     if arg.isdecimal():
         try:
-            await ctx.send("Ecco la risorsa che cercavi: " + resourceDict[int(arg)]['url'])
+            resEmbed.add_field(name=resourceDict[int(arg)]['name'], value=resourceDict[int(arg)]['url'])
+            await ctx.send(embed=resEmbed)
         except IndexError:
             await ctx.send("Mi dispiace, ma quella risorsa non esiste.")
+        finally:
+            resEmbed.clear_fields()
     elif arg == 'list':
         i = 0
         for entry in resourceDict:
@@ -111,6 +132,8 @@ async def res(ctx, arg: str):
             i += 1
         await ctx.send('Ecco una lista delle risorse disponibili', embed=list)
         list.clear_fields()
+    else:
+        await ctx.send("Mi dispiace ma hai inserito dei caratteri non validi.")
 
 @client.command()
 async def webex(ctx, type: str, arg: str):
