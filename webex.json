@@ -57,5 +57,11 @@
         "prof": "Alessandro Marchetti",
         "subject": "Chimica Generale",
         "link": "alessandro.marchetti"
+    },
+
+    {
+        "prof": "Fabrizio Indirli",
+        "subject": "ACSO",
+        "link": "fabrizio.indirli"
     }
 ]
