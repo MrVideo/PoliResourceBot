@@ -3,7 +3,7 @@ from discord.ext import commands
 import logging
 import json
 
-from discord.ext.commands.errors import CommandNotFound, MissingRequiredArgument
+from discord.ext.commands.errors import CommandNotFound, MissingRequiredArgument, TooManyArguments
 from private.config import token
 
 # Create new client
@@ -87,6 +87,8 @@ async def on_command_error(ctx, error):
         await ctx.send("Mi dispiace, ma quel comando non esiste.")
     elif isinstance(error, MissingRequiredArgument):
         await ctx.send("Mi dispiace, ma mancano degli argomenti necessari. Riprova!")
+    elif isinstance(error, TooManyArguments):
+        await ctx.send("Mi dispiace, ma hai messo troppi argomenti. Prova a toglierne qualcuno!")
     else:
         raise error
 
@@ -154,6 +156,10 @@ async def webex(ctx, type: str, arg: str):
         await ctx.send('Hai inserito un tipo non valido. Riprova.')
     webexEmbed.description = 'Non è stato trovato alcun professore con questi criteri di ricerca'
     webexEmbed.clear_fields()
+
+# Does not ignore too many arguments on one command
+for command in client.commands:
+    command.ignore_extra = False
 
 # The client is run
 client.run(token)
