@@ -87,5 +87,23 @@
         "prof": "Daniele Loiacono",
         "subject": "Fondamenti di Informatica",
         "link": "daniele.loiacono"
+    },
+
+    {
+        "prof": "Matteo Pradella",
+        "subject": "Algoritmi e Principi dell'Informatica",
+        "link": "matteo.pradella"
+    },
+
+    {
+        "prof": "Luca Barletta",
+        "subject": "Informazione e Stima",
+        "link": "luca.barletta"
+    },
+
+    {
+        "prof": "Alberto Leva",
+        "subject": "Fondamenti di Automatica",
+        "link": "alberto.leva"
     }
 ]
