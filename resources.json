@@ -67,5 +67,10 @@
     {
         "name": "Metodo di Ziegler e Nichols per la taratura dei PID by @desmofede42",
         "url": "https://acrobat.adobe.com/link/track?uri=urn:aaid:scds:US:ed5088a6-ea2f-353c-bffe-d74810a40a31"
+    },
+
+    {
+        "name": "Dati laboratorio Fondamenti di Automatica by @xMrVideo",
+        "url": "https://github.com/MrVideo/FdA-Lab-22"
     }
 ]
