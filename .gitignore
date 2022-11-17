@@ -9,3 +9,6 @@
 
 # Private directory
 private
+
+# JetBrains files
+.idea
